@@ -88,16 +88,22 @@
             </ChoiceBox>
          </children>
       </HBox>
-      <CheckBox mnemonicParsing="false" text="メディアディレクトリを個別選択する" textFill="WHITE">
-         <VBox.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </VBox.margin>
-      </CheckBox>
-      <CheckBox mnemonicParsing="false" text="見つかったディレクトリの中身をすべて整理する" textFill="WHITE">
-         <VBox.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </VBox.margin>
-      </CheckBox>
+      <GridPane>
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <CheckBox mnemonicParsing="false" text="メディアディレクトリを個別選択する" textFill="WHITE" />
+            <CheckBox mnemonicParsing="false" text="見つかったディレクトリの中身をすべて整理する" textFill="WHITE" GridPane.columnIndex="1" />
+            <CheckBox mnemonicParsing="false" text="拡張子の名前でフォルダを作成する" textFill="WHITE" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
    </VBox>
    <Separator prefWidth="200.0">
       <padding>

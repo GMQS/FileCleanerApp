@@ -45,6 +45,7 @@ public class MoveFiles implements Runnable {
             }
         } catch (IOException e) {
             Platform.runLater(() -> new AlertWindowCreator(Alert.AlertType.ERROR).setTitle("エラー").setMessage("エラーが発生しました。").show());
+            e.printStackTrace();
         }
         Platform.runLater(() -> new AlertWindowCreator(Alert.AlertType.INFORMATION).setTitle("完了").setMessage("ファイルの整理が完了しました!").show());
 
