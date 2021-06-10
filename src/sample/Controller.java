@@ -59,7 +59,7 @@ public class Controller implements Initializable {
     @FXML
     private void startBtnClick(MouseEvent mouseEvent) {
         final Path cleanTgtDirPath = Paths.get(operationDirectories.getCleanTargetDir().getAbsolutePath());
-        final Path moveTgtDirPath = Paths.get(operationDirectories.getMovedTargetDir().getAbsolutePath());
+        final Path moveTgtDirPath = Paths.get(operationDirectories.getMovedTargetDir().getAbsolutePath()+ "/File Organizer");
         final String optionStr = optionChoiceBox.getSelectionModel().getSelectedItem().toString();
         new Thread(new MoveFiles(cleanTgtDirPath, moveTgtDirPath, progressBar,optionStr)).start();
     }
@@ -77,7 +77,7 @@ public class Controller implements Initializable {
         }
         if(isMoveTargetDirectory){
             operationDirectories.setMovedTargetDir(dir);
-            moveTargetDirText.setText(operationDirectories.getMovedTargetDir().getAbsolutePath());
+            moveTargetDirText.setText(operationDirectories.getMovedTargetDir().getAbsolutePath() + "/File Organizer");
         }else{
             operationDirectories.setCleanTargetDir(dir);
             targetDirText.setText(operationDirectories.getCleanTargetDir().getAbsolutePath());
