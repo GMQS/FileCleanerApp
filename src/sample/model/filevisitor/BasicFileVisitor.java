@@ -1,5 +1,7 @@
 package sample.model.filevisitor;
 
+import sample.properties.AppProperties;
+
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
@@ -8,12 +10,14 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 
 public class BasicFileVisitor implements FileVisitor<Path> {
+    private final AppProperties appProperties;
     private final Path srcDirPath;
     private final Path dstDirPath;
 
-    public BasicFileVisitor(Path srcDirPath, Path dstDirPath) {
-        this.srcDirPath = srcDirPath;
-        this.dstDirPath = dstDirPath;
+    public BasicFileVisitor(final AppProperties appProperties) {
+        this.appProperties = appProperties;
+        this.srcDirPath = appProperties.getSrcDirectoryPath();
+        this.dstDirPath = appProperties.getDstDirectoryPath();
     }
 
     @Override

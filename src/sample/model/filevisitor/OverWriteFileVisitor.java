@@ -1,5 +1,7 @@
 package sample.model.filevisitor;
 
+import sample.properties.AppProperties;
+
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
@@ -10,12 +12,14 @@ import java.nio.file.attribute.BasicFileAttributes;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class OverWriteFileVisitor implements FileVisitor<Path> {
+    private final AppProperties appProperties;
     private final Path srcDirPath;
     private final Path dstDirPath;
 
-    public OverWriteFileVisitor(Path srcDirPath, Path dstDirPath) {
-        this.srcDirPath = srcDirPath;
-        this.dstDirPath = dstDirPath;
+    public OverWriteFileVisitor(final AppProperties appProperties) {
+        this.appProperties = appProperties;
+        this.srcDirPath = appProperties.getSrcDirectoryPath();
+        this.dstDirPath = appProperties.getDstDirectoryPath();
     }
 
 

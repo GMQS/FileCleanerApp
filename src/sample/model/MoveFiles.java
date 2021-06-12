@@ -6,6 +6,7 @@ import javafx.scene.control.ProgressBar;
 import sample.model.filevisitor.BasicFileVisitor;
 import sample.model.filevisitor.OverWriteFileVisitor;
 import sample.model.filevisitor.RenameFileVisitor;
+import sample.properties.AppProperties;
 
 import java.io.IOException;
 import java.nio.file.FileVisitOption;
@@ -14,32 +15,29 @@ import java.nio.file.Path;
 import java.util.EnumSet;
 
 public class MoveFiles implements Runnable {
-    private final Path cleanDirPath;
-    private final Path moveDirPath;
-    private final ProgressBar progressBar;
-    private final String option;
 
-    public MoveFiles(final Path cleanDirPath, final Path moveDirPath, final ProgressBar progressBar, final String option) {
-        this.cleanDirPath = cleanDirPath;
-        this.moveDirPath = moveDirPath;
-        this.progressBar = progressBar;
-        this.option = option;
+    private final AppProperties appProperties;
+
+
+    public MoveFiles(AppProperties appProperties) {
+        this.appProperties = appProperties;
     }
 
     @Override
     public void run() {
+        final Path srcDirectoryPath = appProperties.getSrcDirectoryPath();
         try {
-            switch (option) {
+            switch (appProperties.getDuplicateOption()) {
                 case "ファイル名を変更して移動": {
-                    Files.walkFileTree(cleanDirPath, EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE, new RenameFileVisitor(cleanDirPath, moveDirPath));
+                    Files.walkFileTree(srcDirectoryPath, EnumSet.of(FileVisitOption.FOLLOW_LINKS),Integer.MAX_VALUE, new RenameFileVisitor(appProperties));
                     break;
                 }
                 case "ファイルを移動しない": {
-                    Files.walkFileTree(cleanDirPath, EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE, new BasicFileVisitor(cleanDirPath, moveDirPath));
+                    Files.walkFileTree(srcDirectoryPath, EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE, new BasicFileVisitor(appProperties));
                     break;
                 }
                 case "ファイルを上書きして移動": {
-                    Files.walkFileTree(cleanDirPath, EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE, new OverWriteFileVisitor(cleanDirPath, moveDirPath));
+                    Files.walkFileTree(srcDirectoryPath, EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE, new OverWriteFileVisitor(appProperties));
                     break;
                 }
             }

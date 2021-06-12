@@ -12,20 +12,20 @@ public class RenameFile {
     }
 
     public String rename(final String addChar) {
-        return buildText(this.fileName, addChar);
+        return buildText(fileName, addChar);
     }
 
     public String getFileExtensionChar() {
         final Pattern pattern = Pattern.compile("(?i:.*\\.(.*))");
-        Matcher matcher = pattern.matcher(this.fileName);
+        Matcher matcher = pattern.matcher(fileName);
         if (matcher.matches()) {
             return matcher.group(1);
         } else {
-            return null;
+            return "";
         }
     }
 
-    private String buildText(final String text, final String addChar) {
+    private static String buildText(final String text, final String addChar) {
         final Pattern pattern = Pattern.compile("(?i:.*\\.(.*))");
         Matcher matcher = pattern.matcher(text);
         if (matcher.matches()) {
@@ -37,7 +37,7 @@ public class RenameFile {
         }
     }
 
-    private String getPlaneName(final String fileName) {
+    private static String getPlaneName(final String fileName) {
         if (fileName == null)
             return null;
         int point = fileName.lastIndexOf(".");
