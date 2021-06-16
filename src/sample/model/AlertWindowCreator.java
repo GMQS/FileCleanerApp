@@ -1,6 +1,7 @@
 package sample.model;
 
 import javafx.scene.control.Alert;
+import javafx.stage.Window;
 
 public class AlertWindowCreator {
 
@@ -17,6 +18,11 @@ public class AlertWindowCreator {
 
     public AlertWindowCreator setMessage(final String message){
         this.alert.setContentText(message);
+        return this;
+    }
+
+    public AlertWindowCreator setParentWindow(final Window window){
+        this.alert.initOwner(window);
         return this;
     }
 

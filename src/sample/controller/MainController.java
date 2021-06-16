@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sample.model.AlertWindowCreator;
 import sample.model.MoveFiles;
 import sample.model.MyDirectoryChooser;
 import sample.properties.AppProperties;
@@ -23,36 +24,30 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
 
     @FXML
-    private CheckBox cleanInnerDirCheckBox;
+    private Button advancedSettingBtn;
     @FXML
-    private CheckBox createExtensionDirCheckBox;
+    private ChoiceBox<String> folderDuplicateOptionChoice;
     @FXML
-    private TextField rootFolderEditText;
+    private ChoiceBox<String> folderFoundOptionChoice;
     @FXML
-    private CheckBox manualDirCheckBox;
-    @FXML
-    private Button manualDirSettingBtn;
-    @FXML
-    private ChoiceBox<String> optionChoiceBox;
-    @FXML
-    private ProgressBar progressBar;
+    private ChoiceBox<String> fileDuplicateOptionChoice;
     @FXML
     private Button startBtn;
     @FXML
     private Button targetDirChoiceBtn;
     @FXML
-    private Button moveTargetDirChoiceBtn;
+    private Button moveDirChoiceBtn;
     @FXML
     private Label targetDirText;
     @FXML
     private Label moveTargetDirText;
 
 
-    private Stage mainStage;
+    private Stage thisStage;
     private AppProperties appProperties;
 
     public void setStage(Stage stage) {
-        mainStage = stage;
+        thisStage = stage;
     }
 
     public void exit() {
@@ -78,26 +73,29 @@ public class MainController implements Initializable {
             FileInputStream fis = new FileInputStream("data.json");
             ObjectInputStream ois = new ObjectInputStream(fis);
             appProperties = gson.fromJson((String) ois.readObject(), AppProperties.class);
+
             moveTargetDirText.setText(appProperties.getDstDirectoryPath().toString());
             targetDirText.setText(appProperties.getSrcDirectoryPath().toString());
-            optionChoiceBox.setValue(appProperties.getDuplicateOption());
-            manualDirCheckBox.setSelected(appProperties.isManualSelection());
-            createExtensionDirCheckBox.setSelected(appProperties.isCreateExtensionDir());
-            cleanInnerDirCheckBox.setSelected(appProperties.isCleanInnerDir());
+            folderDuplicateOptionChoice.setValue(appProperties.getFolderDuplicateOption());
+            folderFoundOptionChoice.setValue(appProperties.getFolderFoundOption());
+            fileDuplicateOptionChoice.setValue(appProperties.getFileDuplicateOption());
+
             startButtonLiveState();
-            setManualDirCheckBoxLiveState();
         } catch (Exception e) {
             appProperties = new AppProperties();
         }
     }
 
     private void showOptionWindow() throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/sample/scene/setting_scene.fxml")));
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/sample/scene/setting_scene.fxml")));
+        Parent root = loader.load();
         Stage stage = new Stage();
+        SettingController controller = loader.getController();
+        controller.setStage(stage);
         stage.setScene(new Scene(root, 400, 500));
-        stage.setTitle("個別フォルダ設定");
+        stage.setTitle("カスタムフォルダ設定");
         stage.setResizable(false);
-        stage.initOwner(mainStage);
+        stage.initOwner(thisStage);
         stage.initModality(Modality.WINDOW_MODAL);
         stage.showAndWait();
     }
@@ -106,27 +104,15 @@ public class MainController implements Initializable {
         startBtn.setDisable(appProperties.getSrcDirectoryPath() == null || appProperties.getDstDirectoryPath() == null);
     }
 
-    private void setManualDirCheckBoxLiveState() {
-        if (manualDirCheckBox.isSelected()) {
-            manualDirSettingBtn.setDisable(false);
-            rootFolderEditText.setDisable(true);
-            appProperties.setManualSelection(true);
-        } else {
-            manualDirSettingBtn.setDisable(true);
-            rootFolderEditText.setDisable(false);
-            appProperties.setManualSelection(false);
-        }
-    }
-
     private void chooserAction(final String chooserTitle, final boolean isMoveTargetDirectory) {
-        final File dir = new MyDirectoryChooser(chooserTitle,mainStage).createDirectoryChooser();
+        final File dir = new MyDirectoryChooser(chooserTitle, thisStage).createDirectoryChooser();
         if (dir == null) {
             return;
         }
         String dirPath = dir.getAbsolutePath();
         if (isMoveTargetDirectory) {
             dirPath = dirPath.replaceAll("[\\\\]$", "");
-            appProperties.setDstDirectoryPath(dirPath + "\\File Organizer");
+            appProperties.setDstDirectoryPath(dirPath);
             moveTargetDirText.setText(appProperties.getDstDirectoryPath().toString());
         } else {
             appProperties.setSrcDirectoryPath(dirPath);
@@ -151,31 +137,26 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void duplicateOptionChanged(ActionEvent actionEvent) {
-        appProperties.setDuplicateOption(optionChoiceBox.getSelectionModel().getSelectedItem());
+    private void folderDuplicateOptionChoiceAction(ActionEvent actionEvent) {
+        appProperties.setFolderDuplicateOption(folderDuplicateOptionChoice.getSelectionModel().getSelectedItem());
     }
 
     @FXML
-    private void manualDirSettingBtnClick(MouseEvent mouseEvent) {
+    private void folderFoundOptionChoiceAction(ActionEvent actionEvent) {
+        appProperties.setFolderFoundOption(folderFoundOptionChoice.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
+    private void fileDuplicateOptionChoiceAction(ActionEvent actionEvent) {
+        appProperties.setFileDuplicateOption(fileDuplicateOptionChoice.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
+    public void advancedSettingBtnClick(MouseEvent event) {
         try {
             showOptionWindow();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    private void manualDirCheckBoxSelect(ActionEvent actionEvent) {
-        setManualDirCheckBoxLiveState();
-    }
-
-    @FXML
-    private void createExtensionDirCheckBoxSelect(ActionEvent actionEvent) {
-        appProperties.setCreateExtensionDir(createExtensionDirCheckBox.isSelected());
-    }
-
-    @FXML
-    private void cleanInnerDirCheckBoxSelect(ActionEvent actionEvent) {
-        appProperties.setCleanInnerDir(cleanInnerDirCheckBox.isSelected());
     }
 }

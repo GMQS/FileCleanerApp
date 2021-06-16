@@ -1,7 +1,6 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,7 +18,7 @@ public class Main extends Application {
         MainController controller = loader.getController();
         controller.setStage(stage);
         stage.setTitle("お片付けツール");
-        stage.setScene(new Scene(root, 500, 600));
+        stage.setScene(new Scene(root));
         stage.setOnHidden(e -> controller.exit());
         stage.setResizable(false);
         stage.show();

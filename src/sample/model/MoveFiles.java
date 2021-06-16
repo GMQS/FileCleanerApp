@@ -2,7 +2,6 @@ package sample.model;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ProgressBar;
 import sample.model.filevisitor.BasicFileVisitor;
 import sample.model.filevisitor.OverWriteFileVisitor;
 import sample.model.filevisitor.RenameFileVisitor;
@@ -27,9 +26,9 @@ public class MoveFiles implements Runnable {
     public void run() {
         final Path srcDirectoryPath = appProperties.getSrcDirectoryPath();
         try {
-            switch (appProperties.getDuplicateOption()) {
+            switch (appProperties.getFileDuplicateOption()) {
                 case "ファイル名を変更して移動": {
-                    Files.walkFileTree(srcDirectoryPath, EnumSet.of(FileVisitOption.FOLLOW_LINKS),Integer.MAX_VALUE, new RenameFileVisitor(appProperties));
+                    Files.walkFileTree(srcDirectoryPath, EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE, new RenameFileVisitor(appProperties));
                     break;
                 }
                 case "ファイルを移動しない": {
@@ -41,11 +40,11 @@ public class MoveFiles implements Runnable {
                     break;
                 }
             }
+            Platform.runLater(() -> new AlertWindowCreator(Alert.AlertType.INFORMATION).setTitle("完了").setMessage("ファイルの整理が完了しました!").show());
         } catch (IOException e) {
             Platform.runLater(() -> new AlertWindowCreator(Alert.AlertType.ERROR).setTitle("エラー").setMessage("エラーが発生しました。").show());
             e.printStackTrace();
         }
-        Platform.runLater(() -> new AlertWindowCreator(Alert.AlertType.INFORMATION).setTitle("完了").setMessage("ファイルの整理が完了しました!").show());
 
     }
 
