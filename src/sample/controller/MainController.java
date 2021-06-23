@@ -1,6 +1,13 @@
 package sample.controller;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -65,7 +72,7 @@ public class MainController {
         }
     }
 
-    public void onShowing(Stage stage){
+    public void onShowing(Stage stage) {
         this.thisStage = stage;
         try {
             appProperty = JsonIO.loadFromJsonFile(JSON_FILE_PATH, AppProperty.class);
@@ -88,7 +95,19 @@ public class MainController {
         folderFoundOptionChoice.valueProperty().bindBidirectional(appProperty.folderFoundOptionProperty());
         folderDuplicateOptionChoice.valueProperty().bindBidirectional(appProperty.folderDuplicateOptionProperty());
         fileDuplicateOptionChoice.valueProperty().bindBidirectional(appProperty.fileDuplicateOptionProperty());
+
         startBtn.disableProperty().bind(targetDirText.textProperty().isEmpty().or(moveTargetDirText.textProperty().isEmpty()).or(progressBar.visibleProperty()));
+
+        progressBar.visibleProperty().addListener((observableValue, beforeBool, afterBool) -> {
+            srcChoiceBtn.setDisable(afterBool);
+            dstChoiceBtn.setDisable(afterBool);
+            advancedSettingBtn.setDisable(afterBool);
+            fileDuplicateOptionChoice.setDisable(afterBool);
+            folderDuplicateOptionChoice.setDisable(afterBool);
+            folderFoundOptionChoice.setDisable(afterBool);
+            createExtFolderCheckBox.setDisable(afterBool);
+        });
+
     }
 
     private void showOptionWindow() throws IOException {
@@ -107,7 +126,7 @@ public class MainController {
         stage.setOnShowing(e -> controller.onShowing(appProperty, stage));
         stage.showAndWait();
         try {
-            JsonIO.saveToJsonFile(JSON_FILE_PATH,appProperty);
+            JsonIO.saveToJsonFile(JSON_FILE_PATH, appProperty);
         } catch (Exception e) {
             new AlertWindowCreator(Alert.AlertType.ERROR).setTitle("エラー").setMessage(e.getMessage()).setParentWindow(thisStage).show();
         }
@@ -171,6 +190,7 @@ public class MainController {
         }
 
     }
+
     @FXML
     private void dstExplorerBtnClick(MouseEvent event) {
         try {

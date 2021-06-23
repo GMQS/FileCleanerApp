@@ -1,24 +1,23 @@
 package sample.model;
 
-import sample.model.filevisitor.FileVisitor;
+import sample.model.filevisitor.MyFileVisitor;
 import sample.properties.AppProperty;
 
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.FileVisitOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class MoveFiles implements Runnable {
 
     private final AppProperty appProperty;
     private Callback callback;
-    private ArrayList<Path> foundDirList;
 
     public MoveFiles(AppProperty appProperty) {
-        foundDirList = new ArrayList<>();
         this.appProperty = appProperty;
     }
 
@@ -34,14 +33,20 @@ public class MoveFiles implements Runnable {
     @Override
     public void run() {
         final Path srcDirectoryPath = appProperty.getSrcDirectoryPath();
+        final MyFileVisitor visitor = new MyFileVisitor(appProperty);
         try {
-            Files.walkFileTree(srcDirectoryPath, EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE, new FileVisitor(appProperty, foundDirList));
+            Files.walkFileTree(srcDirectoryPath, EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE, visitor);
+        } catch (IOException ignored) {
+            //Empty Block.
+        }
 
-            if (!appProperty.isCreateFolder()) {
-                callback.finished();
-                return;
-            }
-            for (Path dir : foundDirList) {
+        if (!appProperty.isCreateFolder()) {
+            callback.finished();
+            return;
+        }
+        StringBuilder stackExceptionText = visitor.getStackExceptionText();
+        for (Path dir : visitor.getFoundDirList()) {
+            try {
                 List<Path> list = new ArrayList<>();
                 if (!Files.exists(dir)) {
                     continue;
@@ -73,10 +78,22 @@ public class MoveFiles implements Runnable {
                     Files.move(path, dstFilePath, StandardCopyOption.REPLACE_EXISTING);
                     Files.delete(dir);
                 }
+            } catch (IOException e) {
+                stackExceptionText.append(e).append("\n\n");
+                e.printStackTrace();
             }
-            callback.finished();
+        }
+        try {
+            if (Files.list(srcDirectoryPath).findAny().isEmpty()) {
+                Files.delete(srcDirectoryPath);
+            }
         } catch (IOException e) {
+            stackExceptionText.append(e).append("\n\n");
             e.printStackTrace();
         }
+        if (!stackExceptionText.toString().isEmpty()) {
+            throw new RuntimeException(stackExceptionText.toString());
+        }
+        callback.finished();
     }
 }

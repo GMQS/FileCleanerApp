@@ -6,14 +6,14 @@
           "path": "D:\\ピクチャ"
         },
         "dstDirectoryText": "D:\\ピクチャ",
-        "extensionsText": "jpg,jpeg,png,gif"
+        "extensionsText": "jpg,jpeg,png,bmp"
       },
       {
         "dstDirectory": {
           "path": "F:\\ミュージック"
         },
         "dstDirectoryText": "F:\\ミュージック",
-        "extensionsText": "mp3,wav"
+        "extensionsText": "mp3,wav,wma,m4a"
       },
       {
         "dstDirectory": {
@@ -49,6 +49,27 @@
         },
         "dstDirectoryText": "D:\\ピクチャ\\GIMP画像ファイル",
         "extensionsText": "xcf"
+      },
+      {
+        "dstDirectory": {
+          "path": "D:\\ドキュメント\\ディスクイメージファイル"
+        },
+        "dstDirectoryText": "D:\\ドキュメント\\ディスクイメージファイル",
+        "extensionsText": "iso,cso"
+      },
+      {
+        "dstDirectory": {
+          "path": "D:\\ピクチャ\\GIF"
+        },
+        "dstDirectoryText": "D:\\ピクチャ\\GIF",
+        "extensionsText": "gif"
+      },
+      {
+        "dstDirectory": {
+          "path": "D:\\ピクチャ\\SVG"
+        },
+        "dstDirectoryText": "D:\\ピクチャ\\SVG",
+        "extensionsText": "svg"
       }
     ],
     "titles": [
@@ -58,19 +79,22 @@
       "圧縮ファイル",
       "実行ファイル",
       "PDFファイル",
-      "GIMP画像ファイル"
+      "GIMP画像ファイル",
+      "ディスクイメージファイル",
+      "GIF",
+      "SVG"
     ]
   },
   "srcDirectory": {
-    "path": "F:\\ミュージック"
+    "path": "D:\\ドキュメント\\その他ファイル"
   },
   "dstDirectory": {
     "path": "D:\\ドキュメント\\その他ファイル"
   },
-  "srcDirectoryText": "F:\\ミュージック",
+  "srcDirectoryText": "D:\\ドキュメント\\その他ファイル",
   "dstDirectoryText": "D:\\ドキュメント\\その他ファイル",
   "fileDuplicateOption": "ファイル名を変更して移動",
   "folderDuplicateOption": "フォルダを統合する",
   "folderFoundOption": "フォルダの中身をすべて整理して移動",
-  "isCreateFolder": true
+  "isCreateFolder": false
 }
