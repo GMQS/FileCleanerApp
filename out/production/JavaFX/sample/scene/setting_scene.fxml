@@ -5,12 +5,16 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" spacing="10.0" style="-fx-background-color: #121212;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.SettingController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.SettingController">
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
@@ -19,7 +23,7 @@
          <children>
             <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label text="フォルダ詳細設定" textFill="WHITE">
+                  <Label text="個別フォルダ設定一覧">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -27,26 +31,118 @@
                         <Insets />
                      </VBox.margin>
                   </Label>
-                  <Label text="ファイルの種類に応じて振り分けるフォルダを設定できます。" textFill="WHITE">
+                  <Label text="ファイルの種類(拡張子)に応じて振り分けるフォルダを設定できます。">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <VBox alignment="TOP_CENTER">
-                     <children>
-                        <ListView fx:id="listView" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" />
-                     </children>
-                  </VBox>
                   <Separator prefWidth="200.0" />
                </children>
             </VBox>
          </children>
       </AnchorPane>
+      <AnchorPane>
+         <children>
+            <GridPane hgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="-Infinity" prefWidth="154.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="409.0" minWidth="10.0" prefWidth="396.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <VBox spacing="10.0">
+                     <children>
+                        <Label text="設定済みリスト" />
+                        <ListView fx:id="listView" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="200.0" />
+                     </children>
+                  </VBox>
+                  <GridPane GridPane.columnIndex="1">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" />
+                     </rowConstraints>
+                     <children>
+                        <VBox spacing="10.0">
+                           <children>
+                              <GridPane alignment="CENTER_LEFT" hgap="10.0" maxWidth="1.7976931348623157E308" vgap="10.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints vgrow="SOMETIMES" />
+                                    <RowConstraints vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <children>
+                                    <Label text="移動先フォルダを選択">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <GridPane hgap="10.0" GridPane.columnIndex="1">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Button fx:id="previewFolderChoiceBtn" alignment="TOP_CENTER" contentDisplay="CENTER" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#previewFolderChoiceBtnClick" text="参照" textAlignment="CENTER" />
+                                          <Button fx:id="previewExplorerBtn" alignment="TOP_CENTER" contentDisplay="CENTER" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#previewExplorerBtnClick" text="エクスプローラで開く" textAlignment="CENTER" GridPane.columnIndex="1" />
+                                       </children>
+                                    </GridPane>
+                                    <Label fx:id="previewFolderPathText" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="フォルダパス" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </Label>
+                                 </children>
+                              </GridPane>
+                              <Separator prefWidth="200.0" />
+                              <Label text="拡張子" />
+                              <TextField fx:id="previewExtensionText" disable="true" promptText="拡張子(例:jpg,png,gif)" />
+                           </children>
+                        </VBox>
+                        <Button fx:id="applyBtn" alignment="CENTER" contentDisplay="BOTTOM" disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#applyBtnClick" prefHeight="27.0" prefWidth="122.0" text="変更を保存" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+               </children>
+            </GridPane>
+         </children>
+      </AnchorPane>
+      <Separator prefWidth="200.0" />
       <HBox alignment="TOP_CENTER" spacing="10.0">
          <children>
-            <Button fx:id="addBtn" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addBtnClick" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #303030;" text="追加" textFill="WHITE" />
-            <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #303030;" text="キャンセル" textFill="WHITE" />
+            <Button fx:id="addBtn" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addBtnClick" prefHeight="30.0" prefWidth="100.0" text="追加" />
+            <Button fx:id="deleteBtn" alignment="CENTER" contentDisplay="CENTER" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#deleteBtnClick" prefHeight="30.0" prefWidth="100.0" text="削除" />
+            <Button fx:id="cancelBtn" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#cancelBtn" prefHeight="30.0" prefWidth="100.0" text="閉じる" />
          </children>
       </HBox>
+      <AnchorPane prefWidth="560.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Label fx:id="extensionsListLabel" alignment="CENTER" layoutX="481.0" layoutY="158.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#extensionsListLabelClick" text="拡張子一覧" textFill="#00d0ff" textOverrun="CLIP" underline="true" wrapText="true" AnchorPane.leftAnchor="481.0" AnchorPane.topAnchor="158.0">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
    </children>
 </VBox>

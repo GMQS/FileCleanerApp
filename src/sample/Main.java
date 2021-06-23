@@ -16,10 +16,12 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("scene/main_scene.fxml")));
         Parent root = loader.load();
         MainController controller = loader.getController();
-        controller.setStage(stage);
+        Scene scene = new Scene(root);
+        scene.getRoot().setStyle("-fx-base:black");
         stage.setTitle("お片付けツール");
-        stage.setScene(new Scene(root));
-        stage.setOnHidden(e -> controller.exit());
+        stage.setScene(scene);
+        stage.setOnShowing(e -> controller.onShowing(stage));
+        stage.setOnHidden(e -> controller.onHidden());
         stage.setResizable(false);
         stage.show();
     }

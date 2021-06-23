@@ -1,25 +1,26 @@
 package sample.model.filevisitor;
 
 import sample.model.RenameFile;
-import sample.properties.AppProperties;
+import sample.properties.AppProperty;
+import sample.properties.DirectoryProperty;
 
 import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.FileVisitor;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
+import java.util.EnumSet;
 
-public class RenameFileVisitor implements FileVisitor<Path> {
-    private final AppProperties appProperties;
+public class FileVisitor implements java.nio.file.FileVisitor<Path> {
+    private final AppProperty appProperty;
     private final Path srcDirPath;
     private final Path dstDirPath;
-    private Path tmpDir;
+    private final ArrayList<Path> foundDirList;
 
-    public RenameFileVisitor(final AppProperties appProperties) {
-        this.appProperties = appProperties;
-        this.srcDirPath = appProperties.getSrcDirectoryPath();
-        this.dstDirPath = appProperties.getDstDirectoryPath();
+    public FileVisitor(final AppProperty appProperty,final ArrayList<Path> foundDirList) {
+        this.foundDirList = foundDirList;
+        this.appProperty = appProperty;
+        this.srcDirPath = appProperty.getSrcDirectoryPath();
+        this.dstDirPath = appProperty.getDstDirectoryPath();
     }
 
     //ディレクトリをvisitする前にコールされる
@@ -28,7 +29,7 @@ public class RenameFileVisitor implements FileVisitor<Path> {
         if (dir.equals(srcDirPath)) {
             return FileVisitResult.CONTINUE;
         }
-        switch (appProperties.getFolderFoundOption()) {
+        switch (appProperty.getFolderFoundOption()) {
             case "フォルダの中身をすべて整理して移動":
             case "フォルダを移動しない": {
                 return FileVisitResult.CONTINUE;
@@ -40,7 +41,7 @@ public class RenameFileVisitor implements FileVisitor<Path> {
                     return FileVisitResult.CONTINUE;
                 }
                 if (Files.exists(path)) {
-                    switch (appProperties.getFolderDuplicateOption()) {
+                    switch (appProperty.getFolderDuplicateOption()) {
                         case "フォルダを移動しない":
                         case "フォルダを統合する": {
                             return FileVisitResult.CONTINUE;
@@ -71,7 +72,7 @@ public class RenameFileVisitor implements FileVisitor<Path> {
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
 
         if (!file.getParent().equals(srcDirPath)) {
-            switch (appProperties.getFolderFoundOption()) {
+            switch (appProperty.getFolderFoundOption()) {
                 case "フォルダの中身は整理せずにそのまま移動":
                 case "フォルダを移動しない": {
                     return FileVisitResult.CONTINUE;
@@ -87,18 +88,51 @@ public class RenameFileVisitor implements FileVisitor<Path> {
 
         final String fileName = file.getFileName().toString();
         final String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-        final Path extensionDirPath = Path.of(dstDirPath + "\\" + extension.toUpperCase());
+        Path extensionDirPath = dstDirPath;
+
+
+        if(appProperty.isCreateFolder()){
+            extensionDirPath = Path.of(dstDirPath + "\\" + extension.toUpperCase() + "ファイル");
+            foundDirList.add(extensionDirPath);
+        }
+
+
+        for(DirectoryProperty property : appProperty.getDirectoryPropertyList().getProperties()){
+            final String[] extensionsArray = property.getExtensionsArray();
+            for(String ext : extensionsArray){
+                if(ext.equalsIgnoreCase(extension)){
+                    extensionDirPath = property.getDstDirectory().toPath();
+                }
+            }
+        }
 
         if (!Files.exists(extensionDirPath)) {
             Files.createDirectory(extensionDirPath);
         }
 
         Path dstFilePath = Path.of(extensionDirPath + "\\" + fileName);
-        for (int i = 1; Files.exists(dstFilePath) && !file.equals(dstFilePath); i++) {
-            final String rnmFileName = new RenameFile(fileName).rename("(" + i + ")");
-            dstFilePath = Path.of(extensionDirPath + "\\" + rnmFileName);
+
+        switch (appProperty.getFileDuplicateOption()) {
+            case "ファイル名を変更して移動": {
+                for (int i = 1; Files.exists(dstFilePath) && !file.equals(dstFilePath); i++) {
+                    final String rnmFileName = new RenameFile(fileName).rename("(" + i + ")");
+                    dstFilePath = Path.of(extensionDirPath + "\\" + rnmFileName);
+                }
+                Files.move(file, dstFilePath);
+                break;
+            }
+            case "ファイルを移動しない": {
+                if (Files.exists(dstFilePath)) {
+                    break;
+                }
+                Files.move(file, dstFilePath);
+                break;
+            }
+            case "ファイルを上書きして移動": {
+                Files.move(file, dstFilePath, StandardCopyOption.REPLACE_EXISTING);
+                break;
+            }
         }
-        Files.move(file, dstFilePath);
         return FileVisitResult.CONTINUE;
     }
 
@@ -115,8 +149,8 @@ public class RenameFileVisitor implements FileVisitor<Path> {
             return FileVisitResult.CONTINUE;
         }
         try {
-            Files.deleteIfExists(dir);
-        } catch (IOException e) {
+            Files.delete(dir);
+        } catch (IOException e){
             return FileVisitResult.CONTINUE;
         }
         return FileVisitResult.CONTINUE;

@@ -1,52 +1,82 @@
 package sample.model;
 
-import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import sample.model.filevisitor.BasicFileVisitor;
-import sample.model.filevisitor.OverWriteFileVisitor;
-import sample.model.filevisitor.RenameFileVisitor;
-import sample.properties.AppProperties;
+import sample.model.filevisitor.FileVisitor;
+import sample.properties.AppProperty;
 
 import java.io.IOException;
-import java.nio.file.FileVisitOption;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class MoveFiles implements Runnable {
 
-    private final AppProperties appProperties;
+    private final AppProperty appProperty;
+    private Callback callback;
+    private ArrayList<Path> foundDirList;
 
+    public MoveFiles(AppProperty appProperty) {
+        foundDirList = new ArrayList<>();
+        this.appProperty = appProperty;
+    }
 
-    public MoveFiles(AppProperties appProperties) {
-        this.appProperties = appProperties;
+    @FunctionalInterface
+    public interface Callback {
+        void finished();
+    }
+
+    public void setCallback(Callback callback) {
+        this.callback = callback;
     }
 
     @Override
     public void run() {
-        final Path srcDirectoryPath = appProperties.getSrcDirectoryPath();
+        final Path srcDirectoryPath = appProperty.getSrcDirectoryPath();
         try {
-            switch (appProperties.getFileDuplicateOption()) {
-                case "ファイル名を変更して移動": {
-                    Files.walkFileTree(srcDirectoryPath, EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE, new RenameFileVisitor(appProperties));
-                    break;
+            Files.walkFileTree(srcDirectoryPath, EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE, new FileVisitor(appProperty, foundDirList));
+
+            if (!appProperty.isCreateFolder()) {
+                callback.finished();
+                return;
+            }
+            for (Path dir : foundDirList) {
+                List<Path> list = new ArrayList<>();
+                if (!Files.exists(dir)) {
+                    continue;
                 }
-                case "ファイルを移動しない": {
-                    Files.walkFileTree(srcDirectoryPath, EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE, new BasicFileVisitor(appProperties));
-                    break;
+                Files.list(dir).forEach(list::add);
+                System.out.println("LIST SIZE : " + list.size());
+                if (list.size() != 1) {
+                    continue;
                 }
-                case "ファイルを上書きして移動": {
-                    Files.walkFileTree(srcDirectoryPath, EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE, new OverWriteFileVisitor(appProperties));
-                    break;
+                final Path path = list.get(0);
+                Path dstFilePath = Path.of(dir.getParent() + "\\" + path.getFileName());
+                if (!Files.exists(dstFilePath)) {
+                    Files.move(path, dstFilePath);
+                    Files.delete(dir);
+                    continue;
+                }
+
+                if (appProperty.getFileDuplicateOption().equals("ファイル名を変更して移動")) {
+                    for (int i = 1; Files.exists(Path.of(dir.getParent() + "\\" + path.getFileName())); i++) {
+                        final String rnmFileName = new RenameFile(path.getFileName().toString()).rename("(" + i + ")");
+                        dstFilePath = Path.of(dir.getParent() + "\\" + rnmFileName);
+                    }
+                    Files.move(path, dstFilePath);
+                    Files.delete(dir);
+                    continue;
+                }
+
+                if (appProperty.getFileDuplicateOption().equals("ファイルを上書きして移動")) {
+                    Files.move(path, dstFilePath, StandardCopyOption.REPLACE_EXISTING);
+                    Files.delete(dir);
                 }
             }
-            Platform.runLater(() -> new AlertWindowCreator(Alert.AlertType.INFORMATION).setTitle("完了").setMessage("ファイルの整理が完了しました!").show());
+            callback.finished();
         } catch (IOException e) {
-            Platform.runLater(() -> new AlertWindowCreator(Alert.AlertType.ERROR).setTitle("エラー").setMessage("エラーが発生しました。").show());
             e.printStackTrace();
         }
-
     }
-
-
 }

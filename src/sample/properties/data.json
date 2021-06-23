@@ -1,0 +1,84 @@
+{
+  "directoryPropertyList": {
+    "propertyList": [
+      {
+        "dstDirectory": {
+          "path": "D:\\ピクチャ"
+        },
+        "dstDirectoryText": "D:\\ピクチャ",
+        "extensionsText": "jpg,jpeg,png,gif"
+      },
+      {
+        "dstDirectory": {
+          "path": "F:\\ミュージック"
+        },
+        "dstDirectoryText": "F:\\ミュージック",
+        "extensionsText": "mp3,wav"
+      },
+      {
+        "dstDirectory": {
+          "path": "D:\\ビデオ"
+        },
+        "dstDirectoryText": "D:\\ビデオ",
+        "extensionsText": "mp4,avi,mkv,ts"
+      },
+      {
+        "dstDirectory": {
+          "path": "D:\\ドキュメント\\圧縮ファイル"
+        },
+        "dstDirectoryText": "D:\\ドキュメント\\圧縮ファイル",
+        "extensionsText": "lzh,zip,7z,rar"
+      },
+      {
+        "dstDirectory": {
+          "path": "D:\\ドキュメント\\実行ファイル"
+        },
+        "dstDirectoryText": "D:\\ドキュメント\\実行ファイル",
+        "extensionsText": "exe,msi"
+      },
+      {
+        "dstDirectory": {
+          "path": "D:\\ドキュメント\\PDFファイル"
+        },
+        "dstDirectoryText": "D:\\ドキュメント\\PDFファイル",
+        "extensionsText": "pdf"
+      },
+      {
+        "dstDirectory": {
+          "path": "D:\\ピクチャ\\GIMP画像ファイル"
+        },
+        "dstDirectoryText": "D:\\ピクチャ\\GIMP画像ファイル",
+        "extensionsText": "xcf"
+      },
+      {
+        "dstDirectory": {
+          "path": "D:\\ドキュメント\\ディスクイメージファイル"
+        },
+        "dstDirectoryText": "D:\\ドキュメント\\ディスクイメージファイル",
+        "extensionsText": "iso,cso"
+      }
+    ],
+    "titles": [
+      "ピクチャ",
+      "ミュージック",
+      "ビデオ",
+      "圧縮ファイル",
+      "実行ファイル",
+      "PDFファイル",
+      "GIMP画像ファイル",
+      "ディスクイメージファイル"
+    ]
+  },
+  "srcDirectory": {
+    "path": "F:\\ミュージック"
+  },
+  "dstDirectory": {
+    "path": "D:\\ドキュメント\\その他ファイル"
+  },
+  "srcDirectoryText": "F:\\ミュージック",
+  "dstDirectoryText": "D:\\ドキュメント\\その他ファイル",
+  "fileDuplicateOption": "ファイル名を変更して移動",
+  "folderDuplicateOption": "フォルダを統合する",
+  "folderFoundOption": "フォルダの中身をすべて整理して移動",
+  "isCreateFolder": true
+}
