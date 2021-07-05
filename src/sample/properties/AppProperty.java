@@ -1,10 +1,10 @@
 package sample.properties;
 
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -23,21 +23,58 @@ public class AppProperty {
     private StringProperty fileDuplicateOption;
     private StringProperty folderDuplicateOption;
     private StringProperty folderFoundOption;
-    private BooleanProperty isCreateFolder;
+    private BooleanProperty createFolder;
+    private BooleanProperty checkContents;
+    private BooleanProperty duplicateContentsDelete;
+    private String radioButtonUserData;
+
+    public boolean isDuplicateContentsDelete() {
+        return duplicateContentsDelete.get();
+    }
+
+    public BooleanProperty duplicateContentsDeleteProperty() {
+        if(Objects.isNull(duplicateContentsDelete)){
+            duplicateContentsDelete = new SimpleBooleanProperty();
+        }
+        return duplicateContentsDelete;
+    }
+
+    public void setDuplicateContentsDelete(boolean isDuplicateContentsDelete) {
+        this.duplicateContentsDelete.set(isDuplicateContentsDelete);
+    }
+
+    public String getRadioButtonUserData() {
+        return radioButtonUserData;
+    }
+
+    public void setRadioButtonUserData(String test) {
+        this.radioButtonUserData = test;
+    }
+
+    public boolean isCheckContents() {
+        return checkContents.get();
+    }
+
+    public BooleanProperty checkContentsProperty() {
+        if (Objects.isNull(checkContents)) {
+            checkContents = new SimpleBooleanProperty();
+        }
+        return checkContents;
+    }
+
+    public void setCheckContents(boolean isCheckContents) {
+        this.checkContents.set(isCheckContents);
+    }
 
     public boolean isCreateFolder() {
-        return isCreateFolder.get();
+        return createFolder.get();
     }
 
-    public BooleanProperty isCreateFolderProperty() {
-        if(Objects.isNull(isCreateFolder)){
-            isCreateFolder = new SimpleBooleanProperty();
+    public BooleanProperty createFolderProperty() {
+        if (Objects.isNull(createFolder)) {
+            createFolder = new SimpleBooleanProperty();
         }
-        return isCreateFolder;
-    }
-
-    public void setIsCreateFolder(boolean isCreateFolder) {
-        this.isCreateFolder.set(isCreateFolder);
+        return createFolder;
     }
 
     public DirectoryPropertyList getDirectoryPropertyList() {
@@ -45,10 +82,6 @@ public class AppProperty {
             this.directoryPropertyList = new DirectoryPropertyList();
         }
         return this.directoryPropertyList;
-    }
-
-    public void setDirectoryPropertyList(DirectoryPropertyList directoryPropertyList) {
-        this.directoryPropertyList = directoryPropertyList;
     }
 
     public Path getSrcDirectoryPath() {
@@ -66,23 +99,11 @@ public class AppProperty {
         return srcDirectoryText;
     }
 
-    public void setSrcDirectoryText(String srcDirectoryText) {
-        this.srcDirectoryText.set(srcDirectoryText);
-    }
-
-    public String getDstDirectoryText() {
-        return dstDirectoryText.get();
-    }
-
     public StringProperty dstDirectoryTextProperty() {
         if (Objects.isNull(dstDirectoryText)) {
             dstDirectoryText = new SimpleStringProperty("");
         }
         return dstDirectoryText;
-    }
-
-    public void setDstDirectoryText(String dstDirectoryText) {
-        this.dstDirectoryText.set(dstDirectoryText);
     }
 
     public File getSrcDirectory() {
@@ -103,10 +124,6 @@ public class AppProperty {
         dstDirectoryText.setValue(dstDirectory.getAbsolutePath());
     }
 
-    public String getSrcDirectoryText() {
-        return srcDirectoryText.get();
-    }
-
     public String getFileDuplicateOption() {
         return fileDuplicateOption.get();
     }
@@ -116,10 +133,6 @@ public class AppProperty {
             fileDuplicateOption = new SimpleStringProperty("ファイル名を変更して移動");
         }
         return fileDuplicateOption;
-    }
-
-    public void setFileDuplicateOption(String fileDuplicateOption) {
-        this.fileDuplicateOption.set(fileDuplicateOption);
     }
 
     public String getFolderDuplicateOption() {
@@ -133,10 +146,6 @@ public class AppProperty {
         return folderDuplicateOption;
     }
 
-    public void setFolderDuplicateOption(String folderDuplicateOption) {
-        this.folderDuplicateOption.set(folderDuplicateOption);
-    }
-
     public String getFolderFoundOption() {
         return folderFoundOption.get();
     }
@@ -148,7 +157,4 @@ public class AppProperty {
         return folderFoundOption;
     }
 
-    public void setFolderFoundOption(String folderFoundOption) {
-        this.folderFoundOption.set(folderFoundOption);
-    }
 }

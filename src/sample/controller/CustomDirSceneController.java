@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class AddController {
+public class CustomDirSceneController {
     @FXML
     private Label customDirectoryPathText;
     @FXML
@@ -36,7 +36,7 @@ public class AddController {
 
     private Stage thisStage;
     private DirectoryProperty property;
-    private ArrayList<DirectoryProperty> properties;
+    private List<DirectoryProperty> properties;
 
     @FXML
     private void initialize() {
@@ -45,7 +45,7 @@ public class AddController {
         confirmBtn.disableProperty().bind(customDirectoryPathText.textProperty().isEmpty().or(extensionField.textProperty().isEmpty()));
     }
 
-    public void onShowing(Stage stage, ArrayList<DirectoryProperty> properties) {
+    public void onShowing(Stage stage, List<DirectoryProperty> properties) {
         this.properties = properties;
         this.thisStage = stage;
     }
@@ -68,7 +68,7 @@ public class AddController {
             return;
         }
 
-        List<String> inputExtensionList = Arrays.asList(extensionField.getText().split(","));
+        List<String> inputExtensionList = Arrays.asList(extensionField.getText().toLowerCase().split(","));
         StringBuilder duplicateInfo = new StringBuilder();
         for (DirectoryProperty p : properties) {
             List<String> extensions = Arrays.asList(p.getExtensionsArray());

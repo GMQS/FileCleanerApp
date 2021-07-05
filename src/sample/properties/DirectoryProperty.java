@@ -4,8 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class DirectoryProperty {
@@ -44,7 +43,7 @@ public class DirectoryProperty {
         return dstDirectory;
     }
 
-    public void setDstDirectory(File dstDirectory) {
+    public void setDstDirectory(final File dstDirectory) {
         this.dstDirectory = dstDirectory;
     }
 
@@ -59,7 +58,7 @@ public class DirectoryProperty {
         return dstDirectoryText;
     }
 
-    public void setDstDirectoryText(String dstDirectoryText) {
+    public void setDstDirectoryText(final String dstDirectoryText) {
         if(Objects.isNull(this.dstDirectoryText)){
             this.dstDirectoryText = new SimpleStringProperty(dstDirectoryText);
         }
@@ -77,10 +76,11 @@ public class DirectoryProperty {
         return extensionsText;
     }
 
-    public void setExtensionsText(String extensions) {
+    public void setExtensionsText(final String extensions) {
+        final String s = extensions.toLowerCase();
         if (Objects.isNull(extensionsText)) {
-            extensionsText = new SimpleStringProperty(extensions);
+            extensionsText = new SimpleStringProperty(s);
         }
-        this.extensionsText.set(extensions);
+        this.extensionsText.set(s);
     }
 }

@@ -1,100 +1,21 @@
 {
   "directoryPropertyList": {
-    "propertyList": [
-      {
-        "dstDirectory": {
-          "path": "D:\\ピクチャ"
-        },
-        "dstDirectoryText": "D:\\ピクチャ",
-        "extensionsText": "jpg,jpeg,png,bmp"
-      },
-      {
-        "dstDirectory": {
-          "path": "F:\\ミュージック"
-        },
-        "dstDirectoryText": "F:\\ミュージック",
-        "extensionsText": "mp3,wav,wma,m4a"
-      },
-      {
-        "dstDirectory": {
-          "path": "D:\\ビデオ"
-        },
-        "dstDirectoryText": "D:\\ビデオ",
-        "extensionsText": "mp4,avi,mkv,ts"
-      },
-      {
-        "dstDirectory": {
-          "path": "D:\\ドキュメント\\圧縮ファイル"
-        },
-        "dstDirectoryText": "D:\\ドキュメント\\圧縮ファイル",
-        "extensionsText": "lzh,zip,7z,rar"
-      },
-      {
-        "dstDirectory": {
-          "path": "D:\\ドキュメント\\実行ファイル"
-        },
-        "dstDirectoryText": "D:\\ドキュメント\\実行ファイル",
-        "extensionsText": "exe,msi"
-      },
-      {
-        "dstDirectory": {
-          "path": "D:\\ドキュメント\\PDFファイル"
-        },
-        "dstDirectoryText": "D:\\ドキュメント\\PDFファイル",
-        "extensionsText": "pdf"
-      },
-      {
-        "dstDirectory": {
-          "path": "D:\\ピクチャ\\GIMP画像ファイル"
-        },
-        "dstDirectoryText": "D:\\ピクチャ\\GIMP画像ファイル",
-        "extensionsText": "xcf"
-      },
-      {
-        "dstDirectory": {
-          "path": "D:\\ドキュメント\\ディスクイメージファイル"
-        },
-        "dstDirectoryText": "D:\\ドキュメント\\ディスクイメージファイル",
-        "extensionsText": "iso,cso"
-      },
-      {
-        "dstDirectory": {
-          "path": "D:\\ピクチャ\\GIF"
-        },
-        "dstDirectoryText": "D:\\ピクチャ\\GIF",
-        "extensionsText": "gif"
-      },
-      {
-        "dstDirectory": {
-          "path": "D:\\ピクチャ\\SVG"
-        },
-        "dstDirectoryText": "D:\\ピクチャ\\SVG",
-        "extensionsText": "svg"
-      }
-    ],
-    "titles": [
-      "ピクチャ",
-      "ミュージック",
-      "ビデオ",
-      "圧縮ファイル",
-      "実行ファイル",
-      "PDFファイル",
-      "GIMP画像ファイル",
-      "ディスクイメージファイル",
-      "GIF",
-      "SVG"
-    ]
+    "propertyList": [],
+    "titles": []
   },
   "srcDirectory": {
-    "path": "D:\\ドキュメント\\その他ファイル"
+    "path": "D:\\ドキュメント"
   },
   "dstDirectory": {
-    "path": "D:\\ドキュメント\\その他ファイル"
+    "path": "D:\\ドキュメント"
   },
-  "srcDirectoryText": "D:\\ドキュメント\\その他ファイル",
-  "dstDirectoryText": "D:\\ドキュメント\\その他ファイル",
+  "srcDirectoryText": "D:\\ドキュメント",
+  "dstDirectoryText": "D:\\ドキュメント",
   "fileDuplicateOption": "ファイル名を変更して移動",
   "folderDuplicateOption": "フォルダを統合する",
-  "folderFoundOption": "フォルダの中身をすべて整理して移動",
-  "isCreateFolder": false
+  "folderFoundOption": "フォルダを移動しない",
+  "createFolder": false,
+  "checkContents": true,
+  "duplicateContentsDelete": true,
+  "radioButtonUserData": "RENAME"
 }

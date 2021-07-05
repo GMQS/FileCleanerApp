@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class SettingController {
+public class SettingSceneController {
 
     @FXML
     private Label extensionsListLabel;
@@ -98,10 +98,10 @@ public class SettingController {
 
     @FXML
     private void addBtnClick(MouseEvent event) throws Exception {
-        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/sample/scene/add_scene.fxml")));
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/sample/scene/custom_dir_scene.fxml")));
         Parent root = loader.load();
         Stage stage = new Stage();
-        AddController controller = loader.getController();
+        CustomDirSceneController controller = loader.getController();
         Scene scene = new Scene(root);
         scene.getRoot().setStyle("-fx-base:black");
         stage.setScene(scene);

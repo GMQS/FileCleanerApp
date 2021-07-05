@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import sample.controller.MainController;
+import sample.controller.MainSceneController;
 
 import java.util.Objects;
 
@@ -15,7 +15,7 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("scene/main_scene.fxml")));
         Parent root = loader.load();
-        MainController controller = loader.getController();
+        MainSceneController controller = loader.getController();
         Scene scene = new Scene(root);
         scene.getRoot().setStyle("-fx-base:black");
         stage.setTitle("お片付けツール");

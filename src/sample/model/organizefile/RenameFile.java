@@ -1,4 +1,4 @@
-package sample.model;
+package sample.model.organizefile;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

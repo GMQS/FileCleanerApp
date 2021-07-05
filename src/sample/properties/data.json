@@ -6,7 +6,14 @@
           "path": "D:\\ピクチャ"
         },
         "dstDirectoryText": "D:\\ピクチャ",
-        "extensionsText": "jpg,jpeg,png,bmp"
+        "extensionsText": "jpg,jpeg,png,bmp,gif"
+      },
+      {
+        "dstDirectory": {
+          "path": "D:\\ビデオ"
+        },
+        "dstDirectoryText": "D:\\ビデオ",
+        "extensionsText": "mp4,mkv,ts,avi"
       },
       {
         "dstDirectory": {
@@ -17,17 +24,10 @@
       },
       {
         "dstDirectory": {
-          "path": "D:\\ビデオ"
-        },
-        "dstDirectoryText": "D:\\ビデオ",
-        "extensionsText": "mp4,avi,mkv,ts"
-      },
-      {
-        "dstDirectory": {
           "path": "D:\\ドキュメント\\圧縮ファイル"
         },
         "dstDirectoryText": "D:\\ドキュメント\\圧縮ファイル",
-        "extensionsText": "lzh,zip,7z,rar"
+        "extensionsText": "zip,7z,rar,lzh"
       },
       {
         "dstDirectory": {
@@ -38,63 +38,34 @@
       },
       {
         "dstDirectory": {
-          "path": "D:\\ドキュメント\\PDFファイル"
-        },
-        "dstDirectoryText": "D:\\ドキュメント\\PDFファイル",
-        "extensionsText": "pdf"
-      },
-      {
-        "dstDirectory": {
-          "path": "D:\\ピクチャ\\GIMP画像ファイル"
-        },
-        "dstDirectoryText": "D:\\ピクチャ\\GIMP画像ファイル",
-        "extensionsText": "xcf"
-      },
-      {
-        "dstDirectory": {
           "path": "D:\\ドキュメント\\ディスクイメージファイル"
         },
         "dstDirectoryText": "D:\\ドキュメント\\ディスクイメージファイル",
         "extensionsText": "iso,cso"
-      },
-      {
-        "dstDirectory": {
-          "path": "D:\\ピクチャ\\GIF"
-        },
-        "dstDirectoryText": "D:\\ピクチャ\\GIF",
-        "extensionsText": "gif"
-      },
-      {
-        "dstDirectory": {
-          "path": "D:\\ピクチャ\\SVG"
-        },
-        "dstDirectoryText": "D:\\ピクチャ\\SVG",
-        "extensionsText": "svg"
       }
     ],
     "titles": [
       "ピクチャ",
-      "ミュージック",
       "ビデオ",
+      "ミュージック",
       "圧縮ファイル",
       "実行ファイル",
-      "PDFファイル",
-      "GIMP画像ファイル",
-      "ディスクイメージファイル",
-      "GIF",
-      "SVG"
+      "ディスクイメージファイル"
     ]
   },
   "srcDirectory": {
-    "path": "F:\\ダウンロード"
+    "path": "F:\\ミュージック"
   },
   "dstDirectory": {
-    "path": "D:\\ドキュメント\\その他ファイル"
+    "path": "F:\\ミュージック"
   },
-  "srcDirectoryText": "F:\\ダウンロード",
-  "dstDirectoryText": "D:\\ドキュメント\\その他ファイル",
+  "srcDirectoryText": "F:\\ミュージック",
+  "dstDirectoryText": "F:\\ミュージック",
   "fileDuplicateOption": "ファイル名を変更して移動",
   "folderDuplicateOption": "フォルダを統合する",
-  "folderFoundOption": "フォルダを移動しない",
-  "isCreateFolder": true
+  "folderFoundOption": "フォルダの中身をすべて整理して移動",
+  "createFolder": true,
+  "checkContents": true,
+  "duplicateContentsDelete": false,
+  "radioButtonUserData": "RENAME"
 }

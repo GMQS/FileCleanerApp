@@ -6,12 +6,11 @@ import sample.exception.ListOverSizeException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.List;
 
 public class DirectoryPropertyList {
 
-    private final ArrayList<DirectoryProperty> propertyList;
+    private final List<DirectoryProperty> propertyList;
     private final ObservableList<String> titles;
 
     public DirectoryPropertyList() {
@@ -23,7 +22,7 @@ public class DirectoryPropertyList {
         return this.titles;
     }
 
-    public ArrayList<DirectoryProperty> getProperties() {
+    public List<DirectoryProperty> getProperties() {
         return this.propertyList;
     }
 
