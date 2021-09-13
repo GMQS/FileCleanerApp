@@ -30,13 +30,12 @@ public class DirectoryPropertyList {
         return propertyList.get(index);
     }
 
-    public void update(final DirectoryProperty property, final int index) {
-        propertyList.get(index).update(property);
-        String title = property.getDstDirectory().getName();
-        if (title.equals("")) {
-            title = property.getDstDirectory().getPath();
+    public void update(final TemporaryDirectoryProperty tmpProperty, final int index) {
+        propertyList.get(index).update(tmpProperty);
+        if(tmpProperty.getTmpTitle() == null){
+            return;
         }
-        titles.set(index, title);
+        titles.set(index, tmpProperty.getTmpTitle());
     }
 
     public void add(final DirectoryProperty... properties) throws ListOverSizeException {

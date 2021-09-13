@@ -66,7 +66,7 @@ public class DeleteExtensionDirectory {
             }
 
             final Path path = list.get(0);
-            Path dstFilePath = Path.of(dir.getParent() + "\\" + path.getFileName());
+            final Path dstFilePath = Path.of(dir.getParent() + "\\" + path.getFileName());
 
             if (!Files.exists(dstFilePath)) {
                 fileMove(path, dstFilePath, dir, stackExceptionText, fileCount, fileSize, false);
@@ -103,11 +103,12 @@ public class DeleteExtensionDirectory {
             }
 
             if (appProperty.getFileDuplicateOption().equals("ファイル名を変更して移動")) {
+                Path p = dstFilePath;
                 for (int i = 1; Files.exists(Path.of(dir.getParent() + "\\" + path.getFileName())); i++) {
                     final String rnmFileName = new RenameFile(path.getFileName().toString()).rename("(" + i + ")");
-                    dstFilePath = Path.of(dir.getParent() + "\\" + rnmFileName);
+                    p = Path.of(dir.getParent() + "\\" + rnmFileName);
                 }
-                fileMove(path, dstFilePath, dir, stackExceptionText, fileCount, fileSize, false);
+                fileMove(path, p, dir, stackExceptionText, fileCount, fileSize, false);
                 continue;
             }
 

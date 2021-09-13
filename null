@@ -1,0 +1,15 @@
+{
+  "directoryPropertyList": null,
+  "srcDirectory": null,
+  "dstDirectory": null,
+  "srcDirectoryText": "",
+  "dstDirectoryText": "",
+  "fileDuplicateOption": "ファイル名を変更して移動",
+  "folderDuplicateOption": "フォルダを統合する",
+  "folderFoundOption": "フォルダを移動しない",
+  "createFolder": false,
+  "checkContents": false,
+  "duplicateContentsDelete": false,
+  "useAdvancedSetting": false,
+  "radioButtonUserData": "RENAME"
+}

@@ -1,10 +1,11 @@
 package sample.properties;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 import java.io.File;
-import java.util.Locale;
 import java.util.Objects;
 
 public class DirectoryProperty {
@@ -12,27 +13,38 @@ public class DirectoryProperty {
     private File dstDirectory;
     private StringProperty dstDirectoryText;
     private StringProperty extensionsText;
+    private final BooleanProperty disableSetting;
+
+    public DirectoryProperty() {
+        this.disableSetting = new SimpleBooleanProperty(false);
+    }
 
     public boolean isSetProperty() {
         if (dstDirectory == null) {
             return false;
         }
-        if(dstDirectoryText == null){
+        if (dstDirectoryText == null) {
             return false;
         }
-        if(extensionsText == null){
+        if (extensionsText == null) {
             return false;
         }
-        if(dstDirectoryText.get().equals("")){
+        if (dstDirectoryText.get().equals("")) {
             return false;
         }
         return !extensionsText.get().equals("");
     }
 
-    public void update(final DirectoryProperty property){
-        this.dstDirectory = property.getDstDirectory();
-        this.dstDirectoryText = property.dstDirectoryTextProperty();
-        this.extensionsText = property.extensionsTextProperty();
+    public void update(final TemporaryDirectoryProperty tmpProperty) {
+        final File tmpDir = tmpProperty.getTmpDir();
+        if (!getDstDirectory().equals(tmpDir) && tmpDir != null) {
+            setDstDirectory(tmpDir);
+        }
+
+        final String tmpExtension = tmpProperty.getTmpExtension();
+        if(!getExtensionsText().equals(tmpExtension) && tmpExtension != null){
+            setExtensionsText(tmpExtension);
+        }
     }
 
     public String[] getExtensionsArray() {
@@ -45,6 +57,10 @@ public class DirectoryProperty {
 
     public void setDstDirectory(final File dstDirectory) {
         this.dstDirectory = dstDirectory;
+        if (Objects.isNull(this.dstDirectoryText)) {
+            this.dstDirectoryText = new SimpleStringProperty(dstDirectory.getPath());
+        }
+        this.dstDirectoryText.set(dstDirectory.getPath());
     }
 
     public String getDstDirectoryText() {
@@ -55,14 +71,19 @@ public class DirectoryProperty {
         if (Objects.isNull(dstDirectoryText)) {
             dstDirectoryText = new SimpleStringProperty("");
         }
-        return dstDirectoryText;
+        return this.dstDirectoryText;
     }
 
-    public void setDstDirectoryText(final String dstDirectoryText) {
-        if(Objects.isNull(this.dstDirectoryText)){
-            this.dstDirectoryText = new SimpleStringProperty(dstDirectoryText);
-        }
-        this.dstDirectoryText.set(dstDirectoryText);
+    public BooleanProperty disableSettingProperty() {
+        return this.disableSetting;
+    }
+
+    public void setDisableSetting(final boolean isDisable) {
+        this.disableSetting.set(isDisable);
+    }
+
+    public boolean isDisableSetting() {
+        return this.disableSetting.get();
     }
 
     public String getExtensionsText() {

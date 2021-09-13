@@ -1,8 +1,6 @@
 package sample.controller;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,16 +12,20 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.common.JsonIO;
 import sample.model.AlertWindowCreator;
-import sample.model.organizefile.OrganizeFile;
 import sample.model.MyDirectoryChooser;
+import sample.model.organizefile.OrganizeFile;
 import sample.properties.AppProperty;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 public class MainSceneController {
+    @FXML
+    private CheckBox useAdvancedSettingCheckBox;
     @FXML
     private CheckBox duplicateContentsDeleteCheckBox;
     @FXML
@@ -68,8 +70,8 @@ public class MainSceneController {
     private Label targetDirText;
     @FXML
     private Label moveTargetDirText;
+    private String JSON_FILE_PATH;
 
-    private static final String JSON_FILE_PATH = "src/sample/properties/data.json";
 
     private Stage thisStage;
     private AppProperty appProperty;
@@ -90,7 +92,6 @@ public class MainSceneController {
         try {
             appProperty = JsonIO.loadFromJsonFile(JSON_FILE_PATH, AppProperty.class);
         } catch (Exception e) {
-            new AlertWindowCreator(Alert.AlertType.ERROR).setTitle("エラー").setMessage(e.getMessage()).setParentWindow(thisStage).show();
             appProperty = new AppProperty();
         } finally {
             setupViews();
@@ -99,6 +100,12 @@ public class MainSceneController {
 
     @FXML
     private void initialize() {
+        try {
+            JSON_FILE_PATH =
+                    Paths.get(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParent().toString() + "/data.json";
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setupViews() {
@@ -119,6 +126,8 @@ public class MainSceneController {
 
         toggleGroup.selectedToggleProperty().addListener((observableValue, beforeToggle, afterToggle) -> appProperty.setRadioButtonUserData(afterToggle.getUserData().toString()));
 
+
+        useAdvancedSettingCheckBox.disableProperty().bind(progressBar.disabledProperty().not());
         duplicateContentsDeleteCheckBox.disableProperty().bind(progressBar.disabledProperty().not());
         CheckContentsCheckBox.disableProperty().bind(progressBar.disabledProperty().not());
         RenameWithCheckContentsRadioBtn.disableProperty().bind(appProperty.checkContentsProperty().not().or(progressBar.disableProperty().not()));
@@ -129,11 +138,11 @@ public class MainSceneController {
         folderFoundOptionChoice.disableProperty().bind(progressBar.disabledProperty().not());
         folderDuplicateOptionChoice.disableProperty().bind(progressBar.disabledProperty().not());
         createExtFolderCheckBox.disableProperty().bind(progressBar.disabledProperty().not());
-        advancedSettingBtn.disableProperty().bind(progressBar.disabledProperty().not());
+        advancedSettingBtn.disableProperty().bind(progressBar.disabledProperty().not().or(useAdvancedSettingCheckBox.selectedProperty().not()));
         startBtn.disableProperty().bind(targetDirText.textProperty().isEmpty().or(moveTargetDirText.textProperty().isEmpty()).or(progressBar.disableProperty().not()));
         cancelBtn.disableProperty().bind(startBtn.disableProperty().not().and(progressBar.disableProperty()));
 
-
+        useAdvancedSettingCheckBox.selectedProperty().bindBidirectional(appProperty.useAdvancedSettingProperty());
         duplicateContentsDeleteCheckBox.selectedProperty().bindBidirectional(appProperty.duplicateContentsDeleteProperty());
         CheckContentsCheckBox.selectedProperty().bindBidirectional(appProperty.checkContentsProperty());
         createExtFolderCheckBox.selectedProperty().bindBidirectional(appProperty.createFolderProperty());
@@ -144,9 +153,8 @@ public class MainSceneController {
         fileDuplicateOptionChoice.valueProperty().bindBidirectional(appProperty.fileDuplicateOptionProperty());
 
         duplicateContentsDeleteCheckBox.selectedProperty().addListener((observableValue, beforeBool, afterBool) -> {
-            if(afterBool){
-                new AlertWindowCreator(Alert.AlertType.WARNING).setParentWindow(thisStage).setTitle("警告").setMessage(
-                        "フォルダに含まれるファイル数が多い場合、処理に時間がかかる場合があります。できるだけ少ないファイル数で重複削除オプションを使用することをお勧めします。").show();
+            if (afterBool) {
+                new AlertWindowCreator(Alert.AlertType.WARNING).setParentWindow(thisStage).setTitle("警告").setMessage("フォルダに含まれるファイル数が多い場合、処理に時間がかかる場合があります。できるだけ少ないファイル数で重複削除オプションを使用することをお勧めします。").show();
             }
         });
 
@@ -198,6 +206,7 @@ public class MainSceneController {
         stage.setResizable(false);
         stage.initOwner(thisStage);
         stage.initModality(Modality.WINDOW_MODAL);
+        stage.setOnHiding(e -> controller.onHiding());
         stage.setOnHidden(e -> controller.onHidden());
         stage.setOnShowing(e -> controller.onShowing(appProperty, stage));
         stage.showAndWait();
@@ -234,7 +243,7 @@ public class MainSceneController {
             return;
         }
         OrganizeFile organizeFile = new OrganizeFile(appProperty);
-        organizeFile.setCallback((result,error) -> Platform.runLater(() ->{
+        organizeFile.setCallback((result, error) -> Platform.runLater(() -> {
             if (!error.isEmpty()) {
                 final String message = "1件以上のエラーが発生しています。\n\n[エラー詳細情報]\n" + error;
                 try {

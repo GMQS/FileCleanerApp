@@ -187,14 +187,19 @@ public class MyFileVisitor implements FileVisitor<Path> {
 
 
         try {
-            if (file.getParent().equals(srcDirPath) || folderFoundOption.equals("フォルダの中身をすべて整理して移動")) {
-                //個別登録フォルダをチェック
-                for (DirectoryProperty property : appProperty.getDirectoryPropertyList().getProperties()) {
-                    if (Arrays.stream(property.getExtensionsArray()).anyMatch(p -> p.equalsIgnoreCase(extension))) {
-                        final Path target = Path.of(property.getDstDirectory().toPath() + "\\" + file.getFileName());
-                        fileMover.setTargetFullPath(target).move();
-                        visitedFiles.add(target);
-                        return FileVisitResult.CONTINUE;
+            if (appProperty.useAdvancedSetting()) {
+                if (file.getParent().equals(srcDirPath) || folderFoundOption.equals("フォルダの中身をすべて整理して移動")) {
+                    //個別登録フォルダをチェック
+                    for (DirectoryProperty property : appProperty.getDirectoryPropertyList().getProperties()) {
+                        if (property.isDisableSetting()) {
+                            continue;
+                        }
+                        if (Arrays.stream(property.getExtensionsArray()).anyMatch(p -> p.equalsIgnoreCase(extension))) {
+                            final Path target = Path.of(property.getDstDirectory().toPath() + "\\" + file.getFileName());
+                            fileMover.setTargetFullPath(target).move();
+                            visitedFiles.add(target);
+                            return FileVisitResult.CONTINUE;
+                        }
                     }
                 }
             }

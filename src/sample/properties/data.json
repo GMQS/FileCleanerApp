@@ -6,42 +6,48 @@
           "path": "D:\\ピクチャ"
         },
         "dstDirectoryText": "D:\\ピクチャ",
-        "extensionsText": "jpg,jpeg,png,bmp,gif"
+        "extensionsText": "jpg,jpeg,png,bmp,gif,xcf",
+        "disableSetting": false
       },
       {
         "dstDirectory": {
           "path": "D:\\ビデオ"
         },
         "dstDirectoryText": "D:\\ビデオ",
-        "extensionsText": "mp4,mkv,ts,avi"
+        "extensionsText": "mp4,mkv,ts,avi",
+        "disableSetting": false
       },
       {
         "dstDirectory": {
           "path": "F:\\ミュージック"
         },
         "dstDirectoryText": "F:\\ミュージック",
-        "extensionsText": "mp3,wav,wma,m4a"
+        "extensionsText": "mp3,wav,wma,m4a",
+        "disableSetting": false
       },
       {
         "dstDirectory": {
           "path": "D:\\ドキュメント\\圧縮ファイル"
         },
         "dstDirectoryText": "D:\\ドキュメント\\圧縮ファイル",
-        "extensionsText": "zip,7z,rar,lzh"
+        "extensionsText": "zip,7z,rar,lzh",
+        "disableSetting": false
       },
       {
         "dstDirectory": {
           "path": "D:\\ドキュメント\\実行ファイル"
         },
         "dstDirectoryText": "D:\\ドキュメント\\実行ファイル",
-        "extensionsText": "exe,msi"
+        "extensionsText": "exe,msi",
+        "disableSetting": false
       },
       {
         "dstDirectory": {
           "path": "D:\\ドキュメント\\ディスクイメージファイル"
         },
         "dstDirectoryText": "D:\\ドキュメント\\ディスクイメージファイル",
-        "extensionsText": "iso,cso"
+        "extensionsText": "iso,cso",
+        "disableSetting": false
       }
     ],
     "titles": [
@@ -54,18 +60,19 @@
     ]
   },
   "srcDirectory": {
-    "path": "F:\\ミュージック"
+    "path": "D:\\ダウンロード"
   },
   "dstDirectory": {
-    "path": "F:\\ミュージック"
+    "path": "D:\\ドキュメント\\その他ファイル"
   },
-  "srcDirectoryText": "F:\\ミュージック",
-  "dstDirectoryText": "F:\\ミュージック",
+  "srcDirectoryText": "D:\\ダウンロード",
+  "dstDirectoryText": "D:\\ドキュメント\\その他ファイル",
   "fileDuplicateOption": "ファイル名を変更して移動",
   "folderDuplicateOption": "フォルダを統合する",
-  "folderFoundOption": "フォルダの中身をすべて整理して移動",
+  "folderFoundOption": "フォルダを移動しない",
   "createFolder": true,
   "checkContents": true,
   "duplicateContentsDelete": false,
+  "useAdvancedSetting": true,
   "radioButtonUserData": "RENAME"
 }

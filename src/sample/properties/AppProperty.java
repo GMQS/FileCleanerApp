@@ -26,14 +26,26 @@ public class AppProperty {
     private BooleanProperty createFolder;
     private BooleanProperty checkContents;
     private BooleanProperty duplicateContentsDelete;
+    private BooleanProperty useAdvancedSetting;
     private String radioButtonUserData;
 
     public boolean isDuplicateContentsDelete() {
         return duplicateContentsDelete.get();
     }
 
+    public BooleanProperty useAdvancedSettingProperty() {
+        if (Objects.isNull(useAdvancedSetting)) {
+            useAdvancedSetting = new SimpleBooleanProperty();
+        }
+        return useAdvancedSetting;
+    }
+
+    public boolean useAdvancedSetting() {
+        return this.useAdvancedSetting.get();
+    }
+
     public BooleanProperty duplicateContentsDeleteProperty() {
-        if(Objects.isNull(duplicateContentsDelete)){
+        if (Objects.isNull(duplicateContentsDelete)) {
             duplicateContentsDelete = new SimpleBooleanProperty();
         }
         return duplicateContentsDelete;

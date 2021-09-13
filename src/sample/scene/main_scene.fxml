@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="773.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.MainSceneController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.MainSceneController">
    <AnchorPane>
       <children>
          <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -178,6 +178,7 @@
                </GridPane>
                <CheckBox fx:id="createExtFolderCheckBox" mnemonicParsing="false" text="同じ拡張子のファイルが2つ以上見つかった場合に拡張子名でフォルダを作成する" />
                <CheckBox fx:id="duplicateContentsDeleteCheckBox" mnemonicParsing="false" text="同じフォルダに同じ内容のファイルが複数存在する場合は削除する" />
+               <CheckBox fx:id="useAdvancedSettingCheckBox" mnemonicParsing="false" text="個別フォルダ設定を使用する" />
                <Button fx:id="advancedSettingBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#advancedSettingBtnClick" prefHeight="33.0" prefWidth="144.0" text="個別フォルダ設定" />
                <Separator prefWidth="200.0" />
             </children>

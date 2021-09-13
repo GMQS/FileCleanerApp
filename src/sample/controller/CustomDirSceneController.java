@@ -110,6 +110,5 @@ public class CustomDirSceneController {
             }
         }
         property.setDstDirectory(dir);
-        property.setDstDirectoryText(dir.getPath());
     }
 }

@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
@@ -14,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.SettingSceneController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.SettingSceneController">
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
@@ -120,7 +121,13 @@
                               <TextField fx:id="previewExtensionText" disable="true" promptText="拡張子(例:jpg,png,gif)" />
                            </children>
                         </VBox>
-                        <Button fx:id="applyBtn" alignment="CENTER" contentDisplay="BOTTOM" disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#applyBtnClick" prefHeight="27.0" prefWidth="122.0" text="変更を保存" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                        <HBox alignment="CENTER_RIGHT" spacing="10.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                           <children>
+                              <CheckBox fx:id="disableSettingCheckBox" disable="true" mnemonicParsing="false" text="この設定を無効にする" />
+                              <Button fx:id="applyBtn" alignment="CENTER" contentDisplay="BOTTOM" disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#applyBtnClick" prefHeight="25.0" prefWidth="80.0" text="変更を保存" />
+                              <Button fx:id="deleteBtn" alignment="CENTER" contentDisplay="CENTER" disable="true" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#deleteBtnClick" prefHeight="25.0" prefWidth="80.0" text="削除" />
+                           </children>
+                        </HBox>
                      </children>
                   </GridPane>
                </children>
@@ -131,7 +138,6 @@
       <HBox alignment="TOP_CENTER" spacing="10.0">
          <children>
             <Button fx:id="addBtn" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addBtnClick" prefHeight="30.0" prefWidth="100.0" text="追加" />
-            <Button fx:id="deleteBtn" alignment="CENTER" contentDisplay="CENTER" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#deleteBtnClick" prefHeight="30.0" prefWidth="100.0" text="削除" />
             <Button fx:id="cancelBtn" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#cancelBtn" prefHeight="30.0" prefWidth="100.0" text="閉じる" />
          </children>
       </HBox>
